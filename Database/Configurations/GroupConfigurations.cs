@@ -36,12 +36,12 @@ namespace dmitry_koscheev_kt_41_23.Database.Configurations
             builder.Property(p => p.Course)
                 .IsRequired()
                 .HasColumnName("c_group_course")
-                .HasColumnType(ColumnType.Int).HasMaxLength(100)
+                .HasColumnType(ColumnType.Int)
                 .HasComment("Номер курса");
 
-            builder.Property(p => p.SpecialityId)
+            builder.Property(p => p.SpecialtyId)
                 .IsRequired()
-                .HasColumnName("f_speciality_id")
+                .HasColumnName("f_specialty_id")
                 .HasColumnType(ColumnType.Int)
                 .HasComment("Идентификатор специальности");
 
@@ -51,7 +51,19 @@ namespace dmitry_koscheev_kt_41_23.Database.Configurations
                 .HasColumnType(ColumnType.Bool)
                 .HasComment("Удалёна ли группа");
 
-            builder.ToTable(TableName);
+            builder.HasOne(p => p.Specialty)
+                .WithMany(t => t.Groups)
+                .HasForeignKey(p => p.SpecialtyId)
+                .HasConstraintName("fk_f_specialty_id")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.ToTable(TableName)
+                .HasIndex(p => p.SpecialtyId, $"idx_{TableName}_fk_f_specialty_id");
+
+            //Добавим явную автоподгрузку связанной сущности
+            builder.Navigation(p => p.Specialty)
+                .AutoInclude();
+
         }
     }
 }

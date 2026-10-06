@@ -9,6 +9,6 @@
         public bool isDeleted { get; set; }
         public Group Group { get; set; }
 
-       // public ICollection<Grade> Grades { get; set; } = new List<Grade>();
+       public ICollection<Grade> Grades { get; set; } = new List<Grade>();
     }
 }
