@@ -6,6 +6,7 @@ namespace dmitry_koscheev_kt_41_23.Database
     {
         public StudentDbContext(DbContextOptions<StudentDbContext> options) : base(options) 
         { 
+
         }
     }
 }
