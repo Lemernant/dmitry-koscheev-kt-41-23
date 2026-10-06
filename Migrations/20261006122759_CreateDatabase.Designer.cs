@@ -11,7 +11,7 @@ using dmitry_koscheev_kt_41_23.Database;
 namespace dmitry_koscheev_kt_41_23.Migrations
 {
     [DbContext(typeof(UniversityDbContext))]
-    [Migration("20261006095428_CreateDatabase")]
+    [Migration("20261006122759_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
