@@ -1,4 +1,6 @@
-﻿namespace dmitry_koscheev_kt_41_23.Models
+﻿using System.Text.Json.Serialization;
+
+namespace dmitry_koscheev_kt_41_23.Models
 {
     public class Grade
     {

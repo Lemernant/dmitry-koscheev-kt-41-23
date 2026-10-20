@@ -1,4 +1,5 @@
-﻿using dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces;
+﻿using dmitry_koscheev_kt_41_23.Interfaces.GroupsInterfaces;
+using dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces;
 
 namespace dmitry_koscheev_kt_41_23.ServiceExtensions
 {
@@ -7,6 +8,7 @@ namespace dmitry_koscheev_kt_41_23.ServiceExtensions
         public static IServiceCollection AddServices(this IServiceCollection services) 
         {
             services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IGroupService, GroupService>();
             return services;
         }
     }

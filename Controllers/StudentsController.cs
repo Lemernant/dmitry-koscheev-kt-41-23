@@ -4,6 +4,7 @@ using dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using dmitry_koscheev_kt_41_23.Models;
 
 namespace dmitry_koscheev_kt_41_23.Controllers
 {
@@ -13,11 +14,13 @@ namespace dmitry_koscheev_kt_41_23.Controllers
     {
         private readonly ILogger<StudentsController> _logger;
         private readonly IStudentService _studentService;
+        private UniversityDbContext _context;
 
-        public StudentsController(ILogger<StudentsController> logger, IStudentService studentService)
+        public StudentsController(ILogger<StudentsController> logger, IStudentService studentService, UniversityDbContext context)
         {
             _logger = logger;
             _studentService = studentService;
+            _context = context;
         }
 
         [HttpPost(Name = "GetStudentsByGroup")]
