@@ -1,4 +1,5 @@
 ﻿using Azure.Core.Pipeline;
+using System.Text.Json.Serialization;
 
 namespace dmitry_koscheev_kt_41_23.Models
 {
@@ -9,7 +10,9 @@ namespace dmitry_koscheev_kt_41_23.Models
         public int Course { get; set; }
         public int SpecialtyId { get; set; }
         public bool isDeleted { get; set; }
+
         public Specialty Specialty { get; set; }
+        [JsonIgnore]
         public ICollection<Student> Students { get; set; } = new List<Student>();
     }
 }
