@@ -11,13 +11,12 @@ namespace dmitry_koscheev_kt_41_23.Controllers
     [Route("[controller]")]
     public class StudentsController : ControllerBase
     {
-        private readonly ILogger<StudentsController> logger;
+        private readonly ILogger<StudentsController> _logger;
         private readonly IStudentService _studentService;
-        private UniversityDbContext _context;
 
         public StudentsController(ILogger<StudentsController> logger, IStudentService studentService)
         {
-            this.logger = logger;
+            _logger = logger;
             _studentService = studentService;
         }
 
