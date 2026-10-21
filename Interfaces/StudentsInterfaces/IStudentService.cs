@@ -8,6 +8,8 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces
     public interface IStudentService
     {
         public Task<Student[]> GetStudentsByGroupAsync(StudentGroupFilter filter, CancellationToken cancellationToken);
+        public Task<Student[]> GetStudentsByLastnameAsync(StudentLastnameFilter filter, CancellationToken cancellationToken);
+        public Task<Student[]> GetStudentsByIsDeletedAsync(StudentIsDeletedFilter filter, CancellationToken cancellationToken);
     }
 
     public class StudentService : IStudentService
@@ -20,7 +22,17 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces
 
         public Task<Student[]> GetStudentsByGroupAsync(StudentGroupFilter filter, CancellationToken cancellationToken = default) 
         { 
-            var students = _dbContext.Set<Student>().Where(w => w.Group.GroupName == filter.GroupName).ToArrayAsync(cancellationToken);
+            var students = _dbContext.Set<Student>().Where(w => w.Group.GroupName == filter.GroupName && !w.isDeleted).ToArrayAsync(cancellationToken);
+            return students;
+        }
+        public Task<Student[]> GetStudentsByLastnameAsync(StudentLastnameFilter filter, CancellationToken cancellationToken = default)
+        {
+            var students = _dbContext.Set<Student>().Where(w => w.LastName == filter.Lastname && !w.isDeleted).ToArrayAsync(cancellationToken);
+            return students;
+        }
+        public Task<Student[]> GetStudentsByIsDeletedAsync(StudentIsDeletedFilter filter, CancellationToken cancellationToken = default)
+        {
+            var students = _dbContext.Set<Student>().Where(w => w.isDeleted == filter.isDeleted).ToArrayAsync(cancellationToken);
             return students;
         }
     }

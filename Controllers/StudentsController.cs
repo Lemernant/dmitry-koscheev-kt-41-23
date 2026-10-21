@@ -23,10 +23,26 @@ namespace dmitry_koscheev_kt_41_23.Controllers
             _context = context;
         }
 
-        [HttpPost(Name = "GetStudentsByGroup")]
+        [HttpPost("by_groupname", Name = "GetStudentsByGroup")]
         public async Task <IActionResult> GetStudentsByGroupAsync(StudentGroupFilter filter, CancellationToken cancellationToken = default)
         {
             var students = await _studentService.GetStudentsByGroupAsync(filter, cancellationToken);
+
+            return Ok(students);
+        }
+
+        [HttpPost("by_lastname", Name = "GetStudentsByLastname")]
+        public async Task<IActionResult> GetStudentsByLastnameAsync(StudentLastnameFilter filter, CancellationToken cancellationToken = default)
+        {
+            var students = await _studentService.GetStudentsByLastnameAsync(filter, cancellationToken);
+
+            return Ok(students);
+        }
+
+        [HttpPost("by_isdeleted", Name = "GetStudentsByIsDeleted")]
+        public async Task<IActionResult> GetStudentsByIsDeletedAsync(StudentIsDeletedFilter filter, CancellationToken cancellationToken = default)
+        {
+            var students = await _studentService.GetStudentsByIsDeletedAsync(filter, cancellationToken);
 
             return Ok(students);
         }

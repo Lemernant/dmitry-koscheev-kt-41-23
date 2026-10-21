@@ -1,0 +1,28 @@
+﻿using dmitry_koscheev_kt_41_23.Database;
+using dmitry_koscheev_kt_41_23.Filters.DisciplineFilters;
+using dmitry_koscheev_kt_41_23.Filters.GroupFilters;
+using dmitry_koscheev_kt_41_23.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace dmitry_koscheev_kt_41_23.Interfaces.DisciplinesInterfaces
+{
+    public interface IDisciplineService
+    {
+        public Task<Discipline[]> GetDisciplinesByNameAsync(DisciplineNameFilter filter, CancellationToken cancellationToken);
+    }
+
+    public class DisciplineService : IDisciplineService
+    {
+        private readonly UniversityDbContext _dbContext;
+        public DisciplineService(UniversityDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public Task<Discipline[]> GetDisciplinesByNameAsync(DisciplineNameFilter filter, CancellationToken cancellationToken = default)
+        {
+            var disciplines = _dbContext.Set<Discipline>().Where(w => w.Name == filter.DisciplineName && !w.isDeleted).ToArrayAsync(cancellationToken);
+            return disciplines;
+        }
+    }
+}
