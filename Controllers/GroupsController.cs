@@ -1,8 +1,6 @@
 ﻿using dmitry_koscheev_kt_41_23.Database;
 using dmitry_koscheev_kt_41_23.Filters.GroupFilters;
-using dmitry_koscheev_kt_41_23.Filters.StudentFilters;
 using dmitry_koscheev_kt_41_23.Interfaces.GroupsInterfaces;
-using dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dmitry_koscheev_kt_41_23.Controllers
