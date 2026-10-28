@@ -23,17 +23,50 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.GroupsInterfaces
 
         public Task<Group[]> GetGroupsBySpecialtyAsync(GroupSpecialtyFilter filter, CancellationToken cancellationToken = default)
         {
-            var groups = _dbContext.Set<Group>().Where(w => w.Specialty.Title == filter.SpecialtyTitle && !w.isDeleted).ToArrayAsync(cancellationToken);
+            var groups = _dbContext.Set<Group>().Where(w => w.Specialty.Title == filter.SpecialtyTitle && !w.isDeleted)
+                .Select(g => new Group
+                {
+                    GroupId = g.GroupId,
+                    GroupName = g.GroupName,
+                    Course = g.Course,
+                    SpecialtyId = g.SpecialtyId,
+                    isDeleted = g.isDeleted,
+                    Specialty = null,
+                    Students = null
+                })
+                .ToArrayAsync(cancellationToken);
             return groups;
         }
         public Task<Group[]> GetGroupsByCourseAsync(GroupCourseFilter filter, CancellationToken cancellationToken = default)
         {
-            var groups = _dbContext.Set<Group>().Where(w => w.Course == filter.Course && !w.isDeleted).ToArrayAsync(cancellationToken);
+            var groups = _dbContext.Set<Group>().Where(w => w.Course == filter.Course && !w.isDeleted)
+                .Select(g => new Group
+                {
+                    GroupId = g.GroupId,
+                    GroupName = g.GroupName,
+                    Course = g.Course,
+                    SpecialtyId = g.SpecialtyId,
+                    isDeleted = g.isDeleted,
+                    Specialty = null,
+                    Students = null
+                })
+                .ToArrayAsync(cancellationToken);
             return groups;
         }
         public Task<Group[]> GetGroupsByIsDeletedAsync(GroupIsDeletedFilter filter, CancellationToken cancellationToken = default)
         {
-            var groups = _dbContext.Set<Group>().Where(w => w.isDeleted == filter.isDeleted).ToArrayAsync(cancellationToken);
+            var groups = _dbContext.Set<Group>().Where(w => w.isDeleted == filter.isDeleted)
+                .Select(g => new Group
+                {
+                    GroupId = g.GroupId,
+                    GroupName = g.GroupName,
+                    Course = g.Course,
+                    SpecialtyId = g.SpecialtyId,
+                    isDeleted = g.isDeleted,
+                    Specialty = null,
+                    Students = null
+                })
+                .ToArrayAsync(cancellationToken);
             return groups;
         }
     }

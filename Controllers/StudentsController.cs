@@ -23,28 +23,58 @@ namespace dmitry_koscheev_kt_41_23.Controllers
             _context = context;
         }
 
-        [HttpPost("by_groupname", Name = "GetStudentsByGroup")]
-        public async Task <IActionResult> GetStudentsByGroupAsync(StudentGroupFilter filter, CancellationToken cancellationToken = default)
+        [HttpGet("by_groupname", Name = "GetStudentsByGroup")]
+        public async Task <IActionResult> GetStudentsByGroupAsync([FromQuery] StudentGroupFilter filter, CancellationToken cancellationToken = default)
         {
             var students = await _studentService.GetStudentsByGroupAsync(filter, cancellationToken);
 
             return Ok(students);
         }
 
-        [HttpPost("by_lastname", Name = "GetStudentsByLastname")]
-        public async Task<IActionResult> GetStudentsByLastnameAsync(StudentLastnameFilter filter, CancellationToken cancellationToken = default)
+        [HttpGet("by_lastname", Name = "GetStudentsByLastname")]
+        public async Task<IActionResult> GetStudentsByLastnameAsync([FromQuery] StudentLastnameFilter filter, CancellationToken cancellationToken = default)
         {
             var students = await _studentService.GetStudentsByLastnameAsync(filter, cancellationToken);
 
             return Ok(students);
         }
 
-        [HttpPost("by_isdeleted", Name = "GetStudentsByIsDeleted")]
-        public async Task<IActionResult> GetStudentsByIsDeletedAsync(StudentIsDeletedFilter filter, CancellationToken cancellationToken = default)
+        [HttpGet("by_isdeleted", Name = "GetStudentsByIsDeleted")]
+        public async Task<IActionResult> GetStudentsByIsDeletedAsync([FromQuery] StudentIsDeletedFilter filter, CancellationToken cancellationToken = default)
         {
             var students = await _studentService.GetStudentsByIsDeletedAsync(filter, cancellationToken);
 
             return Ok(students);
         }
+
+        [HttpPost("create", Name = "CreateStudent")]
+        public async Task<IActionResult> AddStudentAsync([FromBody] StudentParams data, CancellationToken cancellationToken = default)
+        {
+            var student = new Student() 
+            {
+                FirstName = data.FirstName,
+                LastName = data.LastName,
+                GroupId = data.GroupId
+            };
+            var newStudent= await _studentService.AddStudentAsync(student, cancellationToken);
+
+            return Ok(newStudent);
+        }
+
+        [HttpPut("update", Name = "UpdateStudent")]
+        public async Task<IActionResult> EditStudentAsync([FromBody] StudentParams data, CancellationToken cancellationToken = default)
+        {
+            var student = new Student()
+            {
+                FirstName = data.FirstName,
+                LastName = data.LastName,
+                GroupId = data.GroupId
+            };
+            var newStudent = await _studentService.EditStudentAsync(student, cancellationToken);
+
+            return Ok(newStudent);
+        }
+
+        public record StudentParams(string FirstName, string LastName, int GroupId);
     }
 }

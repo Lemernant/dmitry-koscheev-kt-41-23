@@ -7,7 +7,6 @@ namespace dmitry_koscheev_kt_41_23.Models
         public int SpecialtyId { get; set; }
         public string? Title { get; set; }
         public string? Code { get; set; }
-        [JsonIgnore]
-        public ICollection<Group> Groups { get; set; } = new List<Group>();
+        public ICollection<Group>? Groups { get; set; } = new List<Group>();
     }
 }

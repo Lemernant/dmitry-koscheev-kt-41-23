@@ -21,16 +21,16 @@ namespace dmitry_koscheev_kt_41_23.Controllers
             _context = context;
         }
 
-        [HttpPost("by_name", Name = "GetSpecialtysByName")]
-        public async Task<IActionResult> GetSpecialtysByNameAsync(SpecialtyNameFilter filter, CancellationToken cancellationToken = default)
+        [HttpGet("by_name", Name = "GetSpecialtysByName")]
+        public async Task<IActionResult> GetSpecialtysByNameAsync([FromQuery] SpecialtyNameFilter filter, CancellationToken cancellationToken = default)
         {
             var groups = await _specialtyService.GetSpecialtysByNameAsync(filter, cancellationToken);
 
             return Ok(groups);
         }
 
-        [HttpPost("by_code", Name = "GetSpecialtysByCode")]
-        public async Task<IActionResult> GetSpecialtysByCodeAsync(SpecialtyCodeFilter filter, CancellationToken cancellationToken = default)
+        [HttpGet("by_code", Name = "GetSpecialtysByCode")]
+        public async Task<IActionResult> GetSpecialtysByCodeAsync([FromQuery] SpecialtyCodeFilter filter, CancellationToken cancellationToken = default)
         {
             var groups = await _specialtyService.GetSpecialtysByCodeAsync(filter, cancellationToken);
 

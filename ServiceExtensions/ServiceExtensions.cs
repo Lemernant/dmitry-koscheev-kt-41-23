@@ -2,6 +2,7 @@
 using dmitry_koscheev_kt_41_23.Interfaces.GroupsInterfaces;
 using dmitry_koscheev_kt_41_23.Interfaces.SpecialtysInterfaces;
 using dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces;
+using dmitry_koscheev_kt_41_23.Interfaces.GradesInterfaces;
 
 namespace dmitry_koscheev_kt_41_23.ServiceExtensions
 {
@@ -13,6 +14,7 @@ namespace dmitry_koscheev_kt_41_23.ServiceExtensions
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IDisciplineService, DisciplineService>();
             services.AddScoped<ISpecialtyService, SpecialtyService>();
+            services.AddScoped<IGradeService, GradeService>();
             return services;
         }
     }

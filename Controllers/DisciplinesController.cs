@@ -20,16 +20,16 @@ namespace dmitry_koscheev_kt_41_23.Controllers
             _context = context;
         }
 
-        [HttpPost("by_name", Name = "GetDisciplinesByName")]
-        public async Task<IActionResult> GetDisciplinesByNameAsync(DisciplineNameFilter filter, CancellationToken cancellationToken = default)
+        [HttpGet("by_name", Name = "GetDisciplinesByName")]
+        public async Task<IActionResult> GetDisciplinesByNameAsync([FromQuery]DisciplineNameFilter filter, CancellationToken cancellationToken = default)
         {
             var groups = await _disciplineService.GetDisciplinesByNameAsync(filter, cancellationToken);
 
             return Ok(groups);
         }
 
-        [HttpPost("by_isdeleted", Name = "GetDisciplinesByIsDeleted")]
-        public async Task<IActionResult> GetDisciplinesByIsDeleted(DisciplineIsDeletedFilter filter, CancellationToken cancellationToken = default)
+        [HttpGet("by_isdeleted", Name = "GetDisciplinesByIsDeleted")]
+        public async Task<IActionResult> GetDisciplinesByIsDeleted([FromQuery]DisciplineIsDeletedFilter filter, CancellationToken cancellationToken = default)
         {
             var groups = await _disciplineService.GetDisciplinesByIsDeletedAsync(filter, cancellationToken);
 

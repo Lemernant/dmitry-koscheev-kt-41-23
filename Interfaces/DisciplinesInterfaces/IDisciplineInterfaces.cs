@@ -23,13 +23,29 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.DisciplinesInterfaces
 
         public Task<Discipline[]> GetDisciplinesByNameAsync(DisciplineNameFilter filter, CancellationToken cancellationToken = default)
         {
-            var disciplines = _dbContext.Set<Discipline>().Where(w => w.Name == filter.DisciplineName && !w.isDeleted).ToArrayAsync(cancellationToken);
+            var disciplines = _dbContext.Set<Discipline>().Where(w => w.Name == filter.DisciplineName && !w.isDeleted)
+                .Select(d => new Discipline
+                {
+                    DisciplineId = d.DisciplineId,
+                    Name = d.Name,
+                    isDeleted = d.isDeleted,
+                    Grades = null
+                })
+                .ToArrayAsync(cancellationToken);
             return disciplines;
         }
 
         public Task<Discipline[]> GetDisciplinesByIsDeletedAsync(DisciplineIsDeletedFilter filter, CancellationToken cancellationToken = default)
         {
-            var disciplines = _dbContext.Set<Discipline>().Where(w => w.isDeleted == filter.isDeleted).ToArrayAsync(cancellationToken);
+            var disciplines = _dbContext.Set<Discipline>().Where(w => w.isDeleted == filter.isDeleted)
+                .Select(d => new Discipline
+                {
+                    DisciplineId = d.DisciplineId,
+                    Name = d.Name,
+                    isDeleted = d.isDeleted,
+                    Grades = null
+                })
+                .ToArrayAsync(cancellationToken);
             return disciplines;
         }
     }

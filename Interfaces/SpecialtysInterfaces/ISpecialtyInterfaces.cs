@@ -23,13 +23,29 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.SpecialtysInterfaces
 
         public Task<Specialty[]> GetSpecialtysByNameAsync(SpecialtyNameFilter filter, CancellationToken cancellationToken = default)
         {
-            var specialtys = _dbContext.Set<Specialty>().Where(w => w.Title == filter.Name).ToArrayAsync(cancellationToken);
+            var specialtys = _dbContext.Set<Specialty>().Where(w => w.Title == filter.Name)
+                .Select(s => new Specialty
+                {
+                    SpecialtyId = s.SpecialtyId,
+                    Title = s.Title,
+                    Code = s.Code,
+                    Groups = null
+                })
+                .ToArrayAsync(cancellationToken);
             return specialtys;
         }
 
         public Task<Specialty[]> GetSpecialtysByCodeAsync(SpecialtyCodeFilter filter, CancellationToken cancellationToken = default)
         {
-            var specialtys = _dbContext.Set<Specialty>().Where(w => w.Code == filter.Code).ToArrayAsync(cancellationToken);
+            var specialtys = _dbContext.Set<Specialty>().Where(w => w.Code == filter.Code)
+                .Select(s => new Specialty
+                {
+                    SpecialtyId = s.SpecialtyId,
+                    Title = s.Title,
+                    Code = s.Code,
+                    Groups = null
+                })
+                .ToArrayAsync(cancellationToken);
             return specialtys;
         }
     }
