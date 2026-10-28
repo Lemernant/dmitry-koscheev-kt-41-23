@@ -1,6 +1,7 @@
 ﻿using dmitry_koscheev_kt_41_23.Database;
-using dmitry_koscheev_kt_41_23.Interfaces.SpecialtysInterfaces;
 using dmitry_koscheev_kt_41_23.Filters.SpecialtyFilters;
+using dmitry_koscheev_kt_41_23.Interfaces.SpecialtysInterfaces;
+using dmitry_koscheev_kt_41_23.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -36,5 +37,46 @@ namespace dmitry_koscheev_kt_41_23.Controllers
 
             return Ok(groups);
         }
+
+        [HttpPost("create", Name = "CreateSpecialty")]
+        public async Task<IActionResult> AddSpecialtyAsync([FromBody] CreateSpecialtyParams data, CancellationToken cancellationToken = default)
+        {
+            var specialty = new Specialty()
+            {
+                Title = data.Title,
+                Code = data.Code
+            };
+            var newSpecialty = await _specialtyService.AddSpecialtyAsync(specialty, cancellationToken);
+
+            return Ok(newSpecialty);
+        }
+
+        [HttpPut("update", Name = "UpdateSpecialty")]
+        public async Task<IActionResult> EditSpecialtyAsync([FromBody] UpdateSpecialtyParams data, CancellationToken cancellationToken = default)
+        {
+            var specialty = new Specialty()
+            {
+                SpecialtyId = data.SpecialtyId,
+                Title = data.Title,
+                Code = data.Code
+            };
+            var updated = await _specialtyService.EditSpecialtyAsync(specialty, cancellationToken);
+
+            return Ok(updated);
+        }
+
+        [HttpDelete("delete/{id}", Name = "DeleteSpecialty")]
+        public async Task<IActionResult> DeleteSpecialtyAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var deleted = await _specialtyService.DeleteSpecialtyAsync(id, cancellationToken);
+
+            if (!deleted)
+                return NotFound($"Специальность с Id={id} не найдена");
+
+            return NoContent();
+        }
+
+        public record CreateSpecialtyParams(string Title, string Code);
+        public record UpdateSpecialtyParams(int SpecialtyId, string Title, string Code);
     }
 }

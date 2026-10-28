@@ -11,6 +11,10 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.DisciplinesInterfaces
         public Task<Discipline[]> GetDisciplinesByNameAsync(DisciplineNameFilter filter, CancellationToken cancellationToken);
         public Task<Discipline[]> GetDisciplinesByIsDeletedAsync(DisciplineIsDeletedFilter filter, CancellationToken cancellationToken);
 
+        public Task<Discipline> AddDisciplineAsync(Discipline discipline, CancellationToken cancellationToken);
+        public Task<Discipline?> EditDisciplineAsync(Discipline discipline, CancellationToken cancellationToken);
+        public Task<bool> DeleteDisciplineAsync(int disciplineid, CancellationToken cancellationToken);
+
     }
 
     public class DisciplineService : IDisciplineService
@@ -47,6 +51,41 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.DisciplinesInterfaces
                 })
                 .ToArrayAsync(cancellationToken);
             return disciplines;
+        }
+
+        public async Task<Discipline> AddDisciplineAsync(Discipline discipline, CancellationToken cancellationToken = default)
+        {
+            discipline.isDeleted = false;
+            await _dbContext.Disciplines.AddAsync(discipline, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return discipline;
+        }
+
+        public async Task<Discipline?> EditDisciplineAsync(Discipline discipline, CancellationToken cancellationToken = default)
+        {
+            var existing = await _dbContext.Disciplines.FirstOrDefaultAsync(s => s.DisciplineId == discipline.DisciplineId, cancellationToken);
+            if (existing == null)
+            {
+                return null;
+            }
+            existing.Name = discipline.Name;
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return existing;
+        }
+
+        public async Task<bool> DeleteDisciplineAsync(int disciplineid, CancellationToken cancellationToken = default)
+        {
+            var discipline = await _dbContext.Disciplines.FirstOrDefaultAsync(s => s.DisciplineId == disciplineid, cancellationToken);
+            if (discipline == null || discipline.isDeleted == true)
+            {
+                return false;
+            }
+
+            discipline.isDeleted = true;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }

@@ -12,7 +12,8 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces
         public Task<Student[]> GetStudentsByLastnameAsync(StudentLastnameFilter filter, CancellationToken cancellationToken);
         public Task<Student[]> GetStudentsByIsDeletedAsync(StudentIsDeletedFilter filter, CancellationToken cancellationToken);
         public Task<Student> AddStudentAsync(Student student, CancellationToken cancellationToken);
-        public Task<Student> EditStudentAsync(Student student, CancellationToken cancellationToken);
+        public Task<Student?> EditStudentAsync(Student student, CancellationToken cancellationToken);
+        public Task<bool> DeleteStudentAsync(int studentid, CancellationToken cancellationToken);
 
     }
 
@@ -33,6 +34,7 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces
                     FirstName = s.FirstName,
                     LastName = s.LastName,
                     GroupId = s.GroupId,
+                    isDeleted = s.isDeleted,
                     Group = null
                 })
                 .ToArrayAsync(cancellationToken);
@@ -57,6 +59,7 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces
                     FirstName = s.FirstName,
                     LastName = s.LastName,
                     GroupId = s.GroupId,
+                    isDeleted = s.isDeleted,
                     Group = null
                 })
                 .ToArrayAsync(cancellationToken);
@@ -71,6 +74,7 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces
                     FirstName = s.FirstName,
                     LastName = s.LastName,
                     GroupId = s.GroupId,
+                    isDeleted = s.isDeleted,
                     Group = null
                 })
                 .ToArrayAsync(cancellationToken);
@@ -85,11 +89,33 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces
             return student;
         }
 
-        public async Task<Student> EditStudentAsync(Student student, CancellationToken cancellationToken = default)
+        public async Task<Student?> EditStudentAsync(Student student, CancellationToken cancellationToken = default)
         {
-            _dbContext.Students.Update(student);
+            var existing = await _dbContext.Students.FirstOrDefaultAsync(s => s.StudentId == student.StudentId, cancellationToken);
+            if ( existing == null )
+            {
+                return null;
+            }
+            existing.FirstName = student.FirstName;
+            existing.LastName = student.LastName;
+            existing.GroupId = student.GroupId;
+            
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return student;
+           
+            return existing;
+        }
+
+        public async Task<bool> DeleteStudentAsync(int studentid, CancellationToken cancellationToken = default)
+        {
+            var student = await _dbContext.Students.FirstOrDefaultAsync(s => s.StudentId == studentid, cancellationToken);
+            if (student == null || student.isDeleted == true)
+            {
+                return false;
+            }
+
+            student.isDeleted = true;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }

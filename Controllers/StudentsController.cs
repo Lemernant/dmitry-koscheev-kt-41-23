@@ -48,7 +48,7 @@ namespace dmitry_koscheev_kt_41_23.Controllers
         }
 
         [HttpPost("create", Name = "CreateStudent")]
-        public async Task<IActionResult> AddStudentAsync([FromBody] StudentParams data, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> AddStudentAsync([FromBody] CreateStudentParams data, CancellationToken cancellationToken = default)
         {
             var student = new Student() 
             {
@@ -62,19 +62,32 @@ namespace dmitry_koscheev_kt_41_23.Controllers
         }
 
         [HttpPut("update", Name = "UpdateStudent")]
-        public async Task<IActionResult> EditStudentAsync([FromBody] StudentParams data, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> EditStudentAsync([FromBody] UpdateStudentParams data, CancellationToken cancellationToken = default)
         {
             var student = new Student()
             {
+                StudentId = data.StudentId,
                 FirstName = data.FirstName,
                 LastName = data.LastName,
                 GroupId = data.GroupId
             };
-            var newStudent = await _studentService.EditStudentAsync(student, cancellationToken);
+            var updated = await _studentService.EditStudentAsync(student, cancellationToken);
 
-            return Ok(newStudent);
+            return Ok(updated);
         }
 
-        public record StudentParams(string FirstName, string LastName, int GroupId);
+        [HttpDelete("delete/{id}", Name = "DeleteStudent")]
+        public async Task<IActionResult> DeleteStudentAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var deleted = await _studentService.DeleteStudentAsync(id, cancellationToken);
+
+            if (!deleted)
+                return NotFound($"Студент с Id={id} не найден");
+
+            return NoContent();
+        }
+
+        public record CreateStudentParams(string FirstName, string LastName, int GroupId);
+        public record UpdateStudentParams(int StudentId, string FirstName, string LastName, int GroupId);
     }
 }
