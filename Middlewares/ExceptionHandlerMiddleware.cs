@@ -54,7 +54,7 @@ namespace dmitry_koscheev_kt_41_23.Middlewares
         {
         }
 
-        public ResponseModel(T data, string message = null)
+        public ResponseModel(T data, string message = null!)
         {
             Succeeded = true;
             Message = message;
