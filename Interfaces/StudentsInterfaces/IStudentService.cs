@@ -2,6 +2,7 @@
 using dmitry_koscheev_kt_41_23.Filters.StudentFilters;
 using dmitry_koscheev_kt_41_23.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces
 {
@@ -115,6 +116,14 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces
             }
 
             student.isDeleted = true;
+
+            var grades = await _dbContext.Grades
+                .Where(s => s.StudentId == studentid)
+                .ToListAsync(cancellationToken);
+
+            foreach (var s in grades)
+                _dbContext.Grades.Remove(s);
+
             await _dbContext.SaveChangesAsync(cancellationToken);
             return true;
         }

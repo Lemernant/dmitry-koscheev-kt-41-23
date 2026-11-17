@@ -11,6 +11,7 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.GroupsInterfaces
         public Task<Group[]> GetGroupsBySpecialtyAsync(GroupSpecialtyFilter filter, CancellationToken cancellationToken);
         public Task<Group[]> GetGroupsByCourseAsync(GroupCourseFilter filter, CancellationToken cancellationToken);
         public Task<Group[]> GetGroupsByIsDeletedAsync(GroupIsDeletedFilter filter, CancellationToken cancellationToken);
+        public Task<string> GetGroupsByDisciplineBadMarkAsync(GroupDisciplineFilter filter, CancellationToken cancellationToken);
         public Task<Group> AddGroupAsync(Group group, CancellationToken cancellationToken);
         public Task<Group?> EditGroupAsync(Group group, CancellationToken cancellationToken);
         public Task<bool> DeleteGroupAsync(int groupid, CancellationToken cancellationToken);
@@ -73,6 +74,19 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.GroupsInterfaces
             return groups;
         }
 
+        public async Task<string> GetGroupsByDisciplineBadMarkAsync(GroupDisciplineFilter filter, CancellationToken cancellationToken = default)
+        {
+            var groups = await _dbContext.Set<Group>()
+                .Where(g => g.Students!.Any(s =>
+                s.Grades!.Any(gr =>
+                    gr.Discipline!.Name == filter.DisciplineName &&
+                    gr.Value == 2) && !s.isDeleted))
+                .Select(a => a.GroupName)
+                .ToArrayAsync(cancellationToken);
+
+            return string.Join(", ", groups);
+        }
+
         public async Task<Group> AddGroupAsync(Group group, CancellationToken cancellationToken = default)
         {
             group.isDeleted = false;
@@ -91,6 +105,7 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.GroupsInterfaces
             existing.GroupName = group.GroupName;
             existing.Course = group.Course;
             existing.SpecialtyId = group.SpecialtyId;
+
             existing.isDeleted = group.isDeleted;
 
             await _dbContext.SaveChangesAsync(cancellationToken);

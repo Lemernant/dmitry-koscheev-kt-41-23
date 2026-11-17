@@ -45,6 +45,14 @@ namespace dmitry_koscheev_kt_41_23.Controllers
             return Ok(groups);
         }
 
+        [HttpGet("by_disciplineBadMark", Name = "GetGroupsByDisciplineBadMark")]
+        public async Task<IActionResult> GetGroupsByDisciplineBadMarkAsync([FromQuery] GroupDisciplineFilter filter, CancellationToken cancellationToken = default)
+        {
+            var groups = await _groupService.GetGroupsByDisciplineBadMarkAsync(filter, cancellationToken);
+
+            return Ok(groups);
+        }
+
         [HttpPost("create", Name = "CreateGroup")]
         public async Task<IActionResult> AddGroupAsync([FromBody] CreateGroupParams data, CancellationToken cancellationToken = default)
         {
