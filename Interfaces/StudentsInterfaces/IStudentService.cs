@@ -99,10 +99,11 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.StudentsInterfaces
             existing.FirstName = student.FirstName;
             existing.LastName = student.LastName;
             existing.GroupId = student.GroupId;
+            existing.isDeleted = student.isDeleted;
             
             await _dbContext.SaveChangesAsync(cancellationToken);
            
-            return existing;
+            return student;
         }
 
         public async Task<bool> DeleteStudentAsync(int studentid, CancellationToken cancellationToken = default)

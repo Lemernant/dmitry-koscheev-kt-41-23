@@ -67,12 +67,13 @@ namespace dmitry_koscheev_kt_41_23.Controllers
                 GroupId = data.GroupId,
                 GroupName = data.GroupName,
                 Course = data.Course,
-                SpecialtyId = data.SpecialtyId
+                SpecialtyId = data.SpecialtyId,
+                isDeleted = data.isDeleted
             };
             var updated = await _groupService.EditGroupAsync(group, cancellationToken);
             if (updated == null) return NotFound();
 
-            return Ok(new UpdateGroupParams(updated.GroupId, updated.GroupName, updated.Course, updated.SpecialtyId));
+            return Ok(new UpdateGroupParams(updated.GroupId, updated.GroupName, updated.Course, updated.SpecialtyId, updated.isDeleted));
         }
 
         [HttpDelete("delete/{id}", Name = "DeleteGroup")]
@@ -87,6 +88,6 @@ namespace dmitry_koscheev_kt_41_23.Controllers
         }
 
         public record CreateGroupParams(string GroupName, int Course, int SpecialtyId);
-        public record UpdateGroupParams(int GroupId, string? GroupName, int? Course, int? SpecialtyId);
+        public record UpdateGroupParams(int GroupId, string? GroupName, int? Course, int? SpecialtyId, bool isDeleted);
     }
 }

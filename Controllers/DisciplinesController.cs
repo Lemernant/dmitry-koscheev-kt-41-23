@@ -56,6 +56,7 @@ namespace dmitry_koscheev_kt_41_23.Controllers
             {
                 DisciplineId = data.DisciplineId,
                 Name = data.Name,
+                isDeleted = data.isDeleted
             };
             var updated = await _disciplineService.EditDisciplineAsync(discipline, cancellationToken);
 
@@ -74,6 +75,6 @@ namespace dmitry_koscheev_kt_41_23.Controllers
         }
 
         public record CreateDisciplineParams(string Name);
-        public record UpdateDisciplineParams(int DisciplineId, string Name);
+        public record UpdateDisciplineParams(int DisciplineId, string Name, bool isDeleted);
     }
 }

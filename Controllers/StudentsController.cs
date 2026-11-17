@@ -69,7 +69,8 @@ namespace dmitry_koscheev_kt_41_23.Controllers
                 StudentId = data.StudentId,
                 FirstName = data.FirstName,
                 LastName = data.LastName,
-                GroupId = data.GroupId
+                GroupId = data.GroupId,
+                isDeleted = data.isDeleted
             };
             var updated = await _studentService.EditStudentAsync(student, cancellationToken);
 
@@ -88,6 +89,6 @@ namespace dmitry_koscheev_kt_41_23.Controllers
         }
 
         public record CreateStudentParams(string FirstName, string LastName, int GroupId);
-        public record UpdateStudentParams(int StudentId, string FirstName, string LastName, int GroupId);
+        public record UpdateStudentParams(int StudentId, string FirstName, string LastName, int GroupId, bool isDeleted);
     }
 }

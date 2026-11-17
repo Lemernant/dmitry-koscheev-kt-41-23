@@ -91,10 +91,11 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.GroupsInterfaces
             existing.GroupName = group.GroupName;
             existing.Course = group.Course;
             existing.SpecialtyId = group.SpecialtyId;
+            existing.isDeleted = group.isDeleted;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return existing;
+            return group;
         }
 
         public async Task<bool> DeleteGroupAsync(int groupid, CancellationToken cancellationToken = default)

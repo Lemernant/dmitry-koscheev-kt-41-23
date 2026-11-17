@@ -69,10 +69,11 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.DisciplinesInterfaces
                 return null;
             }
             existing.Name = discipline.Name;
+            existing.isDeleted = discipline.isDeleted;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return existing;
+            return discipline;
         }
 
         public async Task<bool> DeleteDisciplineAsync(int disciplineid, CancellationToken cancellationToken = default)
