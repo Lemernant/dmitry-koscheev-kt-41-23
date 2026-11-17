@@ -12,7 +12,12 @@ namespace dmitry_koscheev_kt_41_23.Models
 
         public bool IsValidSpecialtyCode()
         {
-            return Regex.IsMatch(Code, @"^\d{2}\.\d{2}\.\d{2}$");
+            return Regex.IsMatch(Code, @"^\s*\d{2}\s*\.\s*\d{2}\s*\.\s*\d{2}\s*$");
+        }
+
+        public bool IsValidSpecialtyTitle()
+        {
+            return Regex.IsMatch(Code, @"^[А-ЯЁ][а-яё]*$");
         }
     }
 }

@@ -80,7 +80,7 @@ namespace dmitry_koscheev_kt_41_23.Interfaces.GroupsInterfaces
                 .Where(g => g.Students!.Any(s =>
                 s.Grades!.Any(gr =>
                     gr.Discipline!.Name == filter.DisciplineName &&
-                    gr.Value == 2) && !s.isDeleted))
+                    gr.Value == 2) && !s.isDeleted) && !g.isDeleted)
                 .Select(a => a.GroupName)
                 .ToArrayAsync(cancellationToken);
 

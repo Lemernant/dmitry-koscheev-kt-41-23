@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 namespace dmitry_koscheev_kt_41_23.Models
 {
@@ -11,5 +12,10 @@ namespace dmitry_koscheev_kt_41_23.Models
         public bool isDeleted { get; set; }
         public Group? Group { get; set; }
         public ICollection<Grade>? Grades { get; set; } = new List<Grade>();
-    }
+
+        public bool IsValidStudentLastName()
+        {
+            return Regex.IsMatch(LastName, @"^[А-ЯЁ][а-яё]*$");
+        }
+    }    
 }
