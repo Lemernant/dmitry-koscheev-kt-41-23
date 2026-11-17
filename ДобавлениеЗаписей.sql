@@ -36,14 +36,29 @@ Select N'История', 0;
 GO
 
 insert into cd_grade(c_grade_value, f_student_id, f_discipline_id)
-Select 4, 1, 1;
+Select 2, 1, 1;
 
 insert into cd_grade(c_grade_value, f_student_id, f_discipline_id)
 Select 3, 1, 2;
 GO
 
 insert into cd_grade(c_grade_value, f_student_id, f_discipline_id)
-Select 5, 2, 1;
+Select 2, 2, 1;
 
 insert into cd_grade(c_grade_value, f_student_id, f_discipline_id)
 Select 4, 2, 2;
+GO
+
+insert into cd_grade(c_grade_value, f_student_id, f_discipline_id)
+Select 2, 3, 1;
+
+insert into cd_grade(c_grade_value, f_student_id, f_discipline_id)
+Select 2, 3, 2;
+GO
+
+insert into cd_grade(c_grade_value, f_student_id, f_discipline_id)
+Select 2, 4, 1;
+
+insert into cd_grade(c_grade_value, f_student_id, f_discipline_id)
+Select 4, 4, 2;
+GO
